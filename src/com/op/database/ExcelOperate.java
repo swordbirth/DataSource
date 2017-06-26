@@ -1,9 +1,11 @@
+package com.op.database;
 import java.io.FileInputStream;
 import java.util.*;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 public class ExcelOperate {
 	
@@ -11,10 +13,11 @@ public class ExcelOperate {
 	DataSource data = new DataSource();
 	
 	public ArrayList<DataSource> readExcel(int title_row,String file){
-		try{
+		Workbook wb = null;
+		try{			
 			POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(file));//打开文件
-			HSSFWorkbook hwb = new HSSFWorkbook(fs); //获取工作簿
-			HSSFSheet sheet = hwb.getSheetAt(0);  //获取表空间
+			wb = new HSSFWorkbook(fs); //获取工作簿
+			Sheet sheet = wb.getSheetAt(0);  //获取表空间
 			int rowNum = sheet.getLastRowNum();  //获取表的总行数
 			int columNum = sheet.getRow(0).getPhysicalNumberOfCells();//获取表的总列数
 			
@@ -36,18 +39,21 @@ public class ExcelOperate {
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
+		}finally{
 		}
 		
 		return datalist;
 	}
 	
-	public static void main(String[] args){
-		ExcelOperate test = new ExcelOperate();
-		String file = "C:\\Users\\sword\\Desktop\\2015级2016年9月课堂报告.xlsx"; 
-		test.readExcel(2, file);
-		for(DataSource data:test.readExcel(2, file)){
-			data.showData();
-		}
-	}
+//	public static void main(String[] args){
+//		ExcelOperate test = new ExcelOperate();
+//		String file = "C:\\Users\\sword\\Desktop\\2015级2016年9月课堂报告.xlsx"; 
+//		test.readExcel(2, file);
+//		for(DataSource data:test.readExcel(2, file)){
+//			data.showData();
+//		}
+//	}
+	
+	
 	
 }
